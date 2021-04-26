@@ -1,44 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<hr>
-{{ object_list }}
-    <table class="table">
-        <thead class="table-dark">
-            <th>ACTIVITY ID</th>
-            <th>SCHEDULE</th>
-            <th>TITLE</th>
-            <th>CREATED_AT</th>
-            <th>STATUS</th>
-            <th>CONDITION</th>
-            <th>PROPERTY ID</th>
-            <th>PROPERTY TITLE</th>
-            <th>PROPERTY ADDRESS</th>
-            <th>SURVEY</th>
-        </thead>
-        {% for obj in object_list %}
-        <tr>
-            <td>{{ obj.id}}</td>
-            <td>{{ obj.schedule }}</td>
-            <td>{{ obj.title }}</td>
-            <td>{{ obj.created_at }}</td>
-            <td>{{ obj.status }}</td>
-            <td>Condition Field</td>
-            <td>{{ obj.property_id.id }}</td>
-            <td>{{ obj.property_id.title }}</td>
-            <td>{{ obj.property_id.address }}</td>
-            <td>{{ obj.survey_id.id}}</td>
-        </tr>
-            
-         {% endfor %}
-    </table>
-    
+{% extends "base/base.html" %}
 
-</body>
-</html>
+{% block title %}ListActivity|Client{% endblock title %}
+
+{% block content %}
+<table class="table">
+    <thead class="table-dark">
+        <th>ACTIVITY ID</th>
+        <th>SCHEDULE</th>
+        <th>TITLE</th>
+        <th>CREATED_AT</th>
+        <th>STATUS</th>
+        <th>CONDITION</th>
+        <th>PROPERTY ID</th>
+        <th>PROPERTY TITLE</th>
+        <th>PROPERTY ADDRESS</th>
+        <th>SURVEY</th>
+    </thead>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ obj.id}}</td>
+        <td>{{ obj.schedule }}</td>
+        <td>{{ obj.title }}</td>
+        <td>{{ obj.created_at }}</td>
+        <td>{{ obj.status }}</td>
+        <td>Condition Field</td>
+        <td>{{ obj.property_id.id }}</td>
+        <td>{{ obj.property_id.title }}</td>
+        <td>{{ obj.property_id.address }}</td>
+        <td>{{ obj.survey_id.id}}</td>
+    </tr>
+        
+     {% endfor %}
+</table>
+{% endblock content %}
