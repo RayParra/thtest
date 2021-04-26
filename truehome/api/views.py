@@ -13,7 +13,7 @@ from .serializers import ActivitySerializer, ActivitySerializerRead, PropertySer
 # Create your views here.
 
 ##### generics.CreateAPIView #####
-
+### v3/activity_create ### Write Only
 class ActivityCreateAPIView(generics.CreateAPIView):
     serializer_class = ActivitySerializer
 
@@ -49,6 +49,8 @@ class PropertyDetailAPIView(APIView):
         data = PropertySerializer(property_data).data
         return Response(data)
 
+
+### v2/activity_list ### Read Only
 class ActivityListAPIView(APIView):
     def get(self, request):
         activity_data = Activity.objects.all()
@@ -56,7 +58,7 @@ class ActivityListAPIView(APIView):
         return Response(data)
     
 
-
+### v2/activity_detail ### Read Only
 class ActivityDetailAPIView(APIView):
     def get(self, request, pk):
         activity_data = get_object_or_404(Activity, pk=pk)
@@ -69,11 +71,12 @@ class ActivityDetailAPIView(APIView):
 
 @api_view(["GET", "POST"])
 def activity_list_api_view(request):
+    # List v1/activity_list # Read only
     if request.method == "GET":
         activity_data =  Activity.objects.all()
         data = ActivitySerializerRead(activity_data, many=True).data
         return Response(data, status=status.HTTP_200_OK)
-    
+    # Create v1/activity_list # Write only
     elif request.method == "POST":
         data = ActivitySerializer(data = request.data)
         if data.is_valid():
@@ -86,17 +89,20 @@ def activity_list_api_view(request):
 
 @api_view(["GET", "PUT", "DELETE"])
 def activity_detail_api_view(request, pk=None):
+    # Detail v1/activity_detail # Read only
     activity_data = Activity.objects.filter(id=pk).first()
     if activity_data:
         if request.method=='GET':
             data = ActivitySerializer(activity_data).data
             return Response(data, status=status.HTTP_200_OK)
+        # Update v1/activity_update # Write only
         elif request.method=='PUT':
             data = ActivitySerializer(activity_data, data=request.data)
             if data.is_valid():
                 data.save()
-                return Response(data.data, status=status.HTPP_200_OK)
+                return Response(data.data)
             return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Delete v1/activity_delete # write only
         elif request.method=='DELETE':
             activity_data.delete()
             return Response({"message": "Activity Removed Successfully"}, status=status.HTTP_200_OK)
