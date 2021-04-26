@@ -75,6 +75,7 @@ def activity_list_api_view(request):
     if request.method == "GET":
         activity_data =  Activity.objects.all()
         data = ActivitySerializerRead(activity_data, many=True).data
+        print(request.data)
         return Response(data, status=status.HTTP_200_OK)
     # Create v1/activity_list # Write only
     elif request.method == "POST":
