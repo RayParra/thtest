@@ -13,6 +13,8 @@ class CreateActivityView(generic.CreateView):
     model = Activity
     form_class = CreateActivityForm
     success_url = reverse_lazy("crudbase:list")
+    
+    
 
 
 
