@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Property, Survey, Activity
-import datetime
-from datetime import timedelta
+from django.utils import timezone
+from datetime import datetime, timedelta
  
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +14,7 @@ class SurveySerializer(serializers.ModelSerializer):
         model = Survey
         fields = '__all__'
         
-
+# Read Activity full data
 class ActivitySerializerRead(serializers.ModelSerializer):
     property_id = PropertySerializer()
     survey_id = SurveySerializer()
@@ -23,20 +23,20 @@ class ActivitySerializerRead(serializers.ModelSerializer):
         model = Activity
         fields = '__all__'
 
-class ActivitySerializer(serializers.ModelSerializer):
-    
+
+# Create Activity, validation date and time
+class ActivitySerializer(serializers.ModelSerializer):    
     class Meta:
         model = Activity
         fields = '__all__'
     
     def validate_schedule(self, value):
-        today = datetime.datetime.now()
-        #td = timedelta(days=-1)
+        today = datetime.now()
        
-        date = datetime.datetime(value.year, value.month, value.day)
-        date2 = datetime.datetime(today.year, today.month, today.day)
+        date = datetime(value.year, value.month, value.day, value.hour)
+        date2 = datetime(today.year, today.month, today.day, today.hour)
      
-        if date < date2:
-            raise serializers.ValidationError("Fecha invalida: Las fechas no pueden ser anterior a la actual")
+        if (date < date2) or date.hour == date2.hour:
+            raise serializers.ValidationError("Hora o Fecha invalida: Las fechas no pueden ser anterior a la actual o la hora no puede ser igual")
         return value
     
