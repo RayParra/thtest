@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include("api.urls")),
     path('client_test/', include("client_test.urls")),
+    path('crudbase/', include("crudbase.urls")),
 ]

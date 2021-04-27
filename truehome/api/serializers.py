@@ -18,7 +18,7 @@ class SurveySerializer(serializers.ModelSerializer):
 class ActivitySerializerRead(serializers.ModelSerializer):
     property_id = PropertySerializer()
     survey_id = SurveySerializer()
-    
+    schedule = serializers.DateTimeField(read_only=True)
     class Meta:
         model = Activity
         fields = '__all__'

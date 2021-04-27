@@ -1,6 +1,6 @@
-{% extends "base/base.html" %}
+{% extends 'base/base.html' %}
 
-{% block title %}ListActivity|Client{% endblock title %}
+{% block title %}List Activities{% endblock title %}
 
 {% block content %}
 <table class="table">
@@ -27,10 +27,10 @@
         <td>{{ obj.property_id.id }}</td>
         <td>{{ obj.property_id.title }}</td>
         <td>{{ obj.property_id.address }}</td>
+        <td>{{ obj.property_id.status }}</td>
         <td>{{ obj.survey_id.id}}</td>
     </tr>
         
      {% endfor %}
 </table>
-{{object_list}}
 {% endblock content %}

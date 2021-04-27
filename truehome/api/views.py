@@ -17,6 +17,10 @@ from .serializers import ActivitySerializer, ActivitySerializerRead, PropertySer
 class ActivityCreateAPIView(generics.CreateAPIView):
     serializer_class = ActivitySerializer
 
+### v3/activities ### List and Write
+class ActivityListCreateView(generics.ListCreateAPIView):
+    serializer_class = ActivitySerializer
+    queryset = ActivitySerializer.Meta.model.objects.all()
 
 
 ##### APIView #####
@@ -54,7 +58,7 @@ class PropertyDetailAPIView(APIView):
 class ActivityListAPIView(APIView):
     def get(self, request):
         activity_data = Activity.objects.all()
-        data = ActivitySerializer(activity_data, many=True).data
+        data = ActivitySerializerRead(activity_data, many=True).data
         return Response(data)
     
 
@@ -75,17 +79,15 @@ def activity_list_api_view(request):
     if request.method == "GET":
         activity_data =  Activity.objects.all()
         data = ActivitySerializerRead(activity_data, many=True).data
-        print(request.data)
         return Response(data, status=status.HTTP_200_OK)
     # Create v1/activity_list # Write only
     elif request.method == "POST":
         data = ActivitySerializer(data = request.data)
         if data.is_valid():
-            print("Validacion de fecha correcta")
             data.save()
             return Response(data.data, status=status.HTTP_201_CREATED)
         return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
-        #print(request.data)
+        
 
 
 @api_view(["GET", "PUT", "DELETE"])

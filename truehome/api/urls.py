@@ -17,4 +17,5 @@ urlpatterns = [
      path('v2/detail_activity/<int:pk>', views.ActivityDetailAPIView.as_view(), name="activity_detail"),
      
      path('v3/create_activity/', views.ActivityCreateAPIView.as_view(), name="activity_create"),
+     path('v3/activities/', views.ActivityListCreateView.as_view(), name="activities"),
 ]
